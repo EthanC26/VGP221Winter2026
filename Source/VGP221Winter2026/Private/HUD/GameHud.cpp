@@ -7,8 +7,10 @@ void AGameHud::BeginPlay()
 	Super::BeginPlay();
 
 	//2. Slates method of Making UI
-	ShowSettingMenu();
+	//ShowSettingMenu();
 
+	//3. UMG method of Making UI
+	toggleGameMenu(StartingGameWidget);
 }
 
 void AGameHud::DrawHUD()
@@ -53,4 +55,16 @@ void AGameHud::HideSettingMenu()
 
 	PlayerOwner->bShowMouseCursor = false;
 	PlayerOwner->SetInputMode(FInputModeGameOnly());
+}
+
+void AGameHud::toggleGameMenu(TSubclassOf<UGameMenuWidget> NewGameMenuWidget)
+{
+	if (GameMenuWidgetContanier)
+	{
+		GameMenuWidgetContanier->RemoveFromParent();
+		GameMenuWidgetContanier = nullptr;
+	}
+
+	GameMenuWidgetContanier = CreateWidget<UGameMenuWidget>(GetWorld(), NewGameMenuWidget);
+	GameMenuWidgetContanier->AddToViewport();
 }

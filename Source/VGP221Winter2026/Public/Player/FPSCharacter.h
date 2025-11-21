@@ -7,6 +7,8 @@
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/Character.h"
 #include "Projectile/FPSProjectile.h"
+#include "Kismet/GameplayStatics.h"
+#include "HUD/GameHud.h"
 #include "FPSCharacter.generated.h"
 
 UCLASS()
@@ -55,5 +57,12 @@ public:
 
 	UFUNCTION()
 	void Fire();
+
+	UFUNCTION()
+	void TakeDamage(float DamageAmount);
+
+private:
+	float Health = 100.0f;
+	float MaxHealth = 100.0f;
 
 };
