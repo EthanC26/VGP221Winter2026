@@ -2,6 +2,7 @@
 
 
 #include "GUI/GameMenuWidget.h"
+#include "HUD/GameHud.h"
 
 void UGameMenuWidget::NativeConstruct()
 {
@@ -31,6 +32,18 @@ void UGameMenuWidget::UpdateHealthBar(float HealthPercent)
 		return;
 	}
 	HealthBar->SetPercent(HealthPercent);
+
+	if (HealthBar->Percent <= 0.0)
+	{
+
+		APlayerController* PC = GetWorld()->GetFirstPlayerController();
+		if (!PC) return;
+
+		AGameHud* HUD = Cast<AGameHud>(PC->GetHUD());
+		if (!HUD) return;
+
+		HUD->ShowGameOverMenu(10);
+	}
 }
 
 void UGameMenuWidget::SetScoreText(int amount)

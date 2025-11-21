@@ -24,7 +24,8 @@ void UMainMenuButtonWidget::OnButtonClicked()
 		AGameHud* HUD = Cast<AGameHud>(PC->GetHUD());
 		if (!HUD) return;
 
-		HUD->CloseMainMenu();
+		HUD->CloseMenu();
+		HUD->toggleGameMenu(HUD->StartingGameWidget);
 	}
 	else if (ButtonText->GetText().ToString() == "Quit")
 	{

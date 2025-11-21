@@ -58,6 +58,7 @@ public:
 
 	void ShowGameOverMenu(int32 FinalScore);
 
-	void CloseMainMenu();
+	void CloseMenu();
 
+	void closeGameOverMenu();
 };

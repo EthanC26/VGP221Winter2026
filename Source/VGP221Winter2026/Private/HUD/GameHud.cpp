@@ -10,7 +10,7 @@ void AGameHud::BeginPlay()
 	//ShowSettingMenu();
 
 	//3. UMG method of Making UI
-	toggleGameMenu(StartingGameWidget);
+	ToggleMainMenu(NewMainMenuWidgetClass);
 }
 
 void AGameHud::DrawHUD()
@@ -132,7 +132,7 @@ void AGameHud::ShowGameOverMenu(int32 FinalScore)
 	PlayerOwner->SetInputMode(FInputModeUIOnly());
 }
 
-void AGameHud::CloseMainMenu()
+void AGameHud::CloseMenu()
 {
 	if (GameMenuWidgetContanier)
 	{
@@ -145,5 +145,21 @@ void AGameHud::CloseMainMenu()
 	{
 		PC->bShowMouseCursor = false;
 		PC->SetInputMode(FInputModeGameOnly());
+	}
+}
+
+void AGameHud::closeGameOverMenu()
+{
+	if (GameOverWidgetContanier)
+	{
+		GameOverWidgetContanier->RemoveFromParent();
+		GameOverWidgetContanier = nullptr;
+	}
+	if (!PlayerOwner)
+		PlayerOwner = GetOwningPlayerController();
+	if (PlayerOwner)
+	{
+		PlayerOwner->bShowMouseCursor = false;
+		PlayerOwner->SetInputMode(FInputModeGameOnly());
 	}
 }
