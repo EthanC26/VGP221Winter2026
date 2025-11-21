@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -9,26 +7,30 @@
 #include "MainMenuWidget.generated.h"
 
 /**
- * 
+ * Main Menu Widget
  */
 UCLASS()
 class VGP221WINTER2026_API UMainMenuWidget : public UUserWidget
 {
 	GENERATED_BODY()
-	
+
 public:
 	virtual void NativeConstruct() override;
 
 protected:
+	// Container for buttons
 	UPROPERTY(meta = (BindWidget))
 	UHorizontalBox* ButtonContainer;
 
-	UPROPERTY(meta = (BlindWidget))
+	// Main title text
+	UPROPERTY(meta = (BindWidget))
 	UTextBlock* TitleText;
 
-	UPROPERTY(EditAnywhere)
+	// Button widget class to spawn
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
 	TSubclassOf<UUserWidget> UserButtonWidgetClass;
 
 private:
+	// Spawns buttons dynamically
 	void SpawnButtons();
 };

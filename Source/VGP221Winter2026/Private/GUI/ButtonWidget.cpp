@@ -39,4 +39,20 @@ void UButtonWidget::OnButtonClicked()
 
 		HUD->ShowGameOverMenu(10);
 	}
+
+	if (Num == 2)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Switching to Main Menu"));
+
+		APlayerController* PC = GetWorld()->GetFirstPlayerController();
+		if (!PC) return;
+
+		AGameHud* HUD = Cast<AGameHud>(PC->GetHUD());
+		if (!HUD) return;
+
+		if (HUD->NewMainMenuWidgetClass)
+		{
+			HUD->ToggleMainMenu(HUD->NewMainMenuWidgetClass);
+		}
+	}
 }

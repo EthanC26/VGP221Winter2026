@@ -1,18 +1,20 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "GUI/MainMenuButtonWidget.h"
 #include "GUI/MainMenuWidget.h"
+#include "GUI/MainMenuButtonWidget.h"
 
 
 void UMainMenuWidget::NativeConstruct()
 {
+	Super::NativeConstruct();
+	SpawnButtons();
 }
 
 void UMainMenuWidget::SpawnButtons()
 {
 	if (!ButtonContainer || !UserButtonWidgetClass) return;
 
-	TArray<FString> ButtonNames = { TEXT("Restart"), TEXT("Main Menu"), TEXT("Quit") };
+	TArray<FString> ButtonNames = {TEXT("Play"), TEXT("Quit") };
 
 	for (int i = 0; i < ButtonNames.Num(); i++)
 	{
@@ -22,7 +24,7 @@ void UMainMenuWidget::SpawnButtons()
 		UMainMenuButtonWidget* ButtonWidget = Cast<UMainMenuButtonWidget>(Widget);
 		if (ButtonWidget)
 		{
-			ButtonWidget->SetButtonText(ButtonNames[i]);; // Set button number starting from 1
+			ButtonWidget->SetButtonText(ButtonNames[i]); // Set button number starting from 1
 		}
 
 	}

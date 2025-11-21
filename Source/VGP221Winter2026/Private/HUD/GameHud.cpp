@@ -69,6 +69,34 @@ void AGameHud::toggleGameMenu(TSubclassOf<UGameMenuWidget> NewGameMenuWidget)
 	GameMenuWidgetContanier->AddToViewport();
 }
 
+void AGameHud::ToggleMainMenu(TSubclassOf<UMainMenuWidget> MenuWidgetClassToToggle)
+{
+	if (!MenuWidgetClassToToggle) return;
+
+	// Remove existing menu
+	if (GameMenuWidgetContanier)
+	{
+		GameMenuWidgetContanier->RemoveFromParent();
+		GameMenuWidgetContanier = nullptr;
+	}
+
+	// Create the new menu
+	GameMenuWidgetContanier = CreateWidget<UUserWidget>(GetWorld(), MenuWidgetClassToToggle);
+	if (!GameMenuWidgetContanier) return;
+
+	GameMenuWidgetContanier->AddToViewport();
+
+	// Enable mouse + UI input
+	APlayerController* PC = GetOwningPlayerController();
+	if (PC)
+	{
+		PC->bShowMouseCursor = true;
+		PC->SetInputMode(FInputModeUIOnly());
+	}
+}
+
+
+
 void AGameHud::ShowGameOverMenu(int32 FinalScore)
 {
 	if (!PlayerOwner)
@@ -96,10 +124,26 @@ void AGameHud::ShowGameOverMenu(int32 FinalScore)
 	}
 
 	// Add to viewport
-	GameOverWidgetContanier->AddToViewport(9999);
+	GameOverWidgetContanier->AddToViewport(0000);
 	GameOverWidgetContanier->SetUpFinalScore(FinalScore);
 
 	// Enable mouse + UI input
 	PlayerOwner->bShowMouseCursor = true;
 	PlayerOwner->SetInputMode(FInputModeUIOnly());
+}
+
+void AGameHud::CloseMainMenu()
+{
+	if (GameMenuWidgetContanier)
+	{
+		GameMenuWidgetContanier->RemoveFromParent();
+		GameMenuWidgetContanier = nullptr;
+	}
+
+	APlayerController* PC = GetOwningPlayerController();
+	if (PC)
+	{
+		PC->bShowMouseCursor = false;
+		PC->SetInputMode(FInputModeGameOnly());
+	}
 }

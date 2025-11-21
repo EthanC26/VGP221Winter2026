@@ -16,6 +16,7 @@ class VGP221WINTER2026_API UMainMenuButtonWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
+public:
 	UPROPERTY(meta = (BindWidget))
 	UButton* Button;
 

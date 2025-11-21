@@ -126,7 +126,7 @@ void AFPSCharacter::Fire()
 	FVector LaunchDirection = MuzzleRotation.Vector();
 	Projectile->FireInDirection(LaunchDirection);
 
-	//TakeDamage(10.0f);
+	TakeDamage(10.0f);
 }
 
 void AFPSCharacter::TakeDamage(float DamageAmount)
@@ -135,5 +135,14 @@ void AFPSCharacter::TakeDamage(float DamageAmount)
 	float HealthPercent = Health / MaxHealth;
 
 	AGameHud* Hud = UGameplayStatics::GetPlayerController(this, 0)->GetHUD<AGameHud>();
-	Hud->GameMenuWidgetContanier->UpdateHealthBar(HealthPercent);
+	if (Hud && Hud->GameMenuWidgetContanier)
+	{
+		// Cast to your specific widget class
+		UGameMenuWidget* GameMenu = Cast<UGameMenuWidget>(Hud->GameMenuWidgetContanier);
+		if (GameMenu)
+		{
+			GameMenu->UpdateHealthBar(HealthPercent);
+		}
+	}
 }
+

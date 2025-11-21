@@ -6,6 +6,7 @@
 #include "Engine/Canvas.h"
 #include "GameFramework/HUD.h"
 #include "GUI/GameMenuWidget.h"
+#include "GUI/MainMenuWidget.h"
 #include "GUI/Slate/SSettingWidget.h"
 #include <GUI/GameOverWidget.h>
 #include "GameHud.generated.h"
@@ -42,12 +43,21 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UGameOverWidget> GameOverWidgetClass;
 
-	UGameMenuWidget* GameMenuWidgetContanier;
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UMainMenuWidget> NewMainMenuWidgetClass;
+
+	UUserWidget* GameMenuWidgetContanier;
 
 	UGameOverWidget* GameOverWidgetContanier;
 
+	UMainMenuWidget* MainMenuWidgetContanier;
+
 	void toggleGameMenu(TSubclassOf<UGameMenuWidget> NewGameMenuWidget);
 
+	void ToggleMainMenu(TSubclassOf<UMainMenuWidget> NewMainMenuuWidget);
+
 	void ShowGameOverMenu(int32 FinalScore);
+
+	void CloseMainMenu();
 
 };
