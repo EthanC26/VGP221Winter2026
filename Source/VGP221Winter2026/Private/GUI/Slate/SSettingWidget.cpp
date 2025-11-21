@@ -14,6 +14,7 @@ void SSettingWidget::Construct(const FArguments& InArgs)
 	//settings Config
 	const FText TitleText = FText::FromString("Settings Menu");
 	FSlateFontInfo TitleFont = FCoreStyle::Get().GetFontStyle("EmbassedText");
+	const FLinearColor BackgroundColor = FLinearColor::Black.CopyWithNewOpacity(0.3f);
 	TitleFont.Size = 60;
 
 	//button Config
@@ -39,7 +40,7 @@ void SSettingWidget::Construct(const FArguments& InArgs)
 
 				[
 					SNew(SImage)
-						.ColorAndOpacity(FColor::Black)
+						.ColorAndOpacity(BackgroundColor)
 				]
 				+ SOverlay::Slot()
 				.HAlign(HAlign_Fill)

@@ -7,6 +7,7 @@
 #include "GameFramework/HUD.h"
 #include "GUI/GameMenuWidget.h"
 #include "GUI/Slate/SSettingWidget.h"
+#include <GUI/GameOverWidget.h>
 #include "GameHud.generated.h"
 
 /**
@@ -37,8 +38,13 @@ public:
 	// 3. UMG method of Making UI
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UGameMenuWidget> StartingGameWidget;
+
 	UGameMenuWidget* GameMenuWidgetContanier;
 
+	UGameOverWidget* GameOverWidgetContanier;
+
 	void toggleGameMenu(TSubclassOf<UGameMenuWidget> NewGameMenuWidget);
+
+	void ShowGameOverMenu(int32 FinalScore);
 
 };
