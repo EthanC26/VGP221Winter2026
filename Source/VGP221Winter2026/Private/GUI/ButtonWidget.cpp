@@ -11,7 +11,6 @@ void UButtonWidget::SetButtonText(int value)
 	ButtonText->SetText(FText::FromString(FString::Printf(TEXT("%d"), Num)));
 	Button->OnClicked.AddDynamic(this, &UButtonWidget::OnButtonClicked);
 }
-
 void UButtonWidget::OnButtonClicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Button %d Clicked"), Num);
@@ -28,5 +27,16 @@ void UButtonWidget::OnButtonClicked()
 
 		HUD->ShowSettingMenu();
 
+	}
+
+	if (Num == 0)
+	{
+		APlayerController* PC = GetWorld()->GetFirstPlayerController();
+		if (!PC) return;
+
+		AGameHud* HUD = Cast<AGameHud>(PC->GetHUD());
+		if (!HUD) return;
+
+		HUD->ShowGameOverMenu(10);
 	}
 }

@@ -6,31 +6,28 @@
 #include "Components/HorizontalBox.h"
 #include "Components/TextBlock.h"
 #include "Blueprint/UserWidget.h"
-#include "GUI/GameOverButtonWidget.h"
-#include "GameOverWidget.generated.h"
+#include "MainMenuWidget.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class VGP221WINTER2026_API UGameOverWidget : public UUserWidget
+class VGP221WINTER2026_API UMainMenuWidget : public UUserWidget
 {
 	GENERATED_BODY()
-
+	
 public:
 	virtual void NativeConstruct() override;
 
-	void SetUpFinalScore(int32 FinalScore);
-
 protected:
 	UPROPERTY(meta = (BindWidget))
-	 UTextBlock* FinalScoreText;
+	UHorizontalBox* ButtonContainer;
 
-	 UPROPERTY(meta = (BindWidget))
-	 UHorizontalBox* ButtonContanier;
+	UPROPERTY(meta = (BlindWidget))
+	UTextBlock* TitleText;
 
-	 UPROPERTY(EditAnywhere)
-	 TSubclassOf<UUserWidget> UserButtonWidgetClass;
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UUserWidget> UserButtonWidgetClass;
 
 private:
 	void SpawnButtons();

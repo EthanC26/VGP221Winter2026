@@ -25,8 +25,11 @@ void UGameMenuWidget::NativeConstruct()
 
 void UGameMenuWidget::UpdateHealthBar(float HealthPercent)
 {
-	if (!HealthBar) return;
-
+	if (!HealthBar)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("HealthBar is null! UpdateHealthBar skipped."));
+		return;
+	}
 	HealthBar->SetPercent(HealthPercent);
 }
 

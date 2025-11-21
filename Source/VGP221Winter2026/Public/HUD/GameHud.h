@@ -39,6 +39,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UGameMenuWidget> StartingGameWidget;
 
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UGameOverWidget> GameOverWidgetClass;
+
 	UGameMenuWidget* GameMenuWidgetContanier;
 
 	UGameOverWidget* GameOverWidgetContanier;

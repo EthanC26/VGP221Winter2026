@@ -60,45 +60,46 @@ void AGameHud::HideSettingMenu()
 void AGameHud::toggleGameMenu(TSubclassOf<UGameMenuWidget> NewGameMenuWidget)
 {
 	if (GameMenuWidgetContanier)
+	{ 
+		GameMenuWidgetContanier->RemoveFromParent(); GameMenuWidgetContanier = nullptr;
+	}
+
+	GameMenuWidgetContanier = CreateWidget<UGameMenuWidget>
+		(GetWorld(), NewGameMenuWidget);
+	GameMenuWidgetContanier->AddToViewport();
+}
+
+void AGameHud::ShowGameOverMenu(int32 FinalScore)
+{
+	if (!PlayerOwner)
+		PlayerOwner = GetOwningPlayerController();
+
+	// Remove existing game menu if needed
+	if (GameMenuWidgetContanier)
 	{
 		GameMenuWidgetContanier->RemoveFromParent();
 		GameMenuWidgetContanier = nullptr;
 	}
 
-	GameMenuWidgetContanier = CreateWidget<UGameMenuWidget>(GetWorld(), NewGameMenuWidget);
-	GameMenuWidgetContanier->AddToViewport();
+
+	if (!GameOverWidgetClass)
+	{
+		return;
+	}
+
+	// Create widget
+	GameOverWidgetContanier = CreateWidget<UGameOverWidget>(PlayerOwner, GameOverWidgetClass);
+
+	if (!GameOverWidgetContanier)
+	{
+		return;
+	}
+
+	// Add to viewport
+	GameOverWidgetContanier->AddToViewport(9999);
+	GameOverWidgetContanier->SetUpFinalScore(FinalScore);
+
+	// Enable mouse + UI input
+	PlayerOwner->bShowMouseCursor = true;
+	PlayerOwner->SetInputMode(FInputModeUIOnly());
 }
-void AGameHud::ShowGameOverMenu(int32 FinalScore)
-{
-    // 1️⃣ Hide existing game menu if it exists
-    if (GameMenuWidgetContanier)
-    {
-        GameMenuWidgetContanier->RemoveFromParent();
-        GameMenuWidgetContanier = nullptr;
-    }
-
-    // 2️⃣ Load the Game Over widget Blueprint
-    TSubclassOf<UGameOverWidget> GameOverWidgetClass = LoadClass<UGameOverWidget>(
-        nullptr,
-        TEXT("/Game/GUI/WBP_GameOver.WBP_GameOver_C")
-    );
-
-    if (!GameOverWidgetClass) return;
-
-    // 3️⃣ Create the Game Over widget
-    GameOverWidgetContanier = CreateWidget<UGameOverWidget>(GetWorld(), GameOverWidgetClass);
-    if (!GameOverWidgetContanier) return;
-
-    // 4️⃣ Add to viewport and set final score
-    GameOverWidgetContanier->AddToViewport();
-    GameOverWidgetContanier->SetUpFinalScore(FinalScore);
-
-    // 5️⃣ Show mouse cursor and set input mode to UI only
-    if (PlayerOwner)
-    {
-        PlayerOwner->bShowMouseCursor = true;
-        PlayerOwner->SetInputMode(FInputModeUIOnly());
-    }
-}
-
-

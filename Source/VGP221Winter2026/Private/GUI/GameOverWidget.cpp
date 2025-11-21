@@ -2,14 +2,12 @@
 
 
 #include "GUI/GameOverWidget.h"
-#
 
 void UGameOverWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
 	SetUpFinalScore(2);
-
 	SpawnButtons();
 }
 
