@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "EnemyAICharacter.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnEnemyDied);
+
 UCLASS()
 class VGP221WINTER2026_API AEnemyAICharacter : public ACharacter
 {
@@ -14,6 +16,9 @@ class VGP221WINTER2026_API AEnemyAICharacter : public ACharacter
 public:
 	// Sets default values for this character's properties
 	AEnemyAICharacter();
+
+	UPROPERTY()
+	FOnEnemyDied OnEnemyDied;
 
 	UFUNCTION()
 	void OnDamage(float damage);
@@ -28,6 +33,8 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	float DamageAmount = 10.0f;
 
 private:
 	int Health = 100.0f;

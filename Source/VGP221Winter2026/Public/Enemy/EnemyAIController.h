@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "Perception/PawnSensingComponent.h"
+#include "Player/FPSCharacter.h"
 #include "EnemyAIController.generated.h"
 
 /**
@@ -23,5 +26,18 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "AI")
 	UBehaviorTree* StartingBehaviorTree;
+
+	UPROPERTY(EditAnywhere)
+	UPawnSensingComponent* PawnSensing;
+
+	UFUNCTION()
+	void OnSeePawn(APawn* PlayerPawn);
+
+	UFUNCTION()
+	void OnCanSeePlayer(bool SeePlayer, UObject* PlayerObject);
+
+	FTimerHandle RetriggerableTimeHandle;
+	FTimerDelegate FunctionDelegate;
+	void RunRetriggerableTimer();
 
 };

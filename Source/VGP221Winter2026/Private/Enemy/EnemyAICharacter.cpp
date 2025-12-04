@@ -16,6 +16,8 @@ void AEnemyAICharacter::OnDamage(float damage)
 	Health -= damage;
 	if (Health <= 0)
 	{
+		OnEnemyDied.Broadcast();
+
 		Destroy();
 	}
 }
@@ -24,6 +26,7 @@ void AEnemyAICharacter::OnDamage(float damage)
 void AEnemyAICharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
 	
 }
 
@@ -40,4 +43,5 @@ void AEnemyAICharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }
+
 

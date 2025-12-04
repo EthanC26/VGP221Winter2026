@@ -16,33 +16,24 @@ void UGameOverButtonWidget::SetButtonText(const FString& TextValue)
 
 void UGameOverButtonWidget::OnButtonClicked()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Game Over Button Clicked: %s"), *ButtonText->GetText().ToString());
+	FString ButtonLabel = ButtonText->GetText().ToString();
+	UE_LOG(LogTemp, Warning, TEXT("Game Over Button Clicked: %s"), *ButtonLabel);
 
-	if (ButtonText->GetText().ToString() == "Restart")
-	{
-		// Logic to restart the game
-		UE_LOG(LogTemp, Warning, TEXT("Restarting Game..."));
-		APlayerController* PC = GetWorld()->GetFirstPlayerController();
-		if (!PC) return;
-
-		AGameHud* HUD = Cast<AGameHud>(PC->GetHUD());
-		if (!HUD) return;
-
-		HUD->closeGameOverMenu();
-		HUD->toggleGameMenu(HUD->StartingGameWidget);
-	}
-	else if (ButtonText->GetText().ToString() == "Main Menu")
+	
+	 if (ButtonText->GetText().ToString() == "Main Menu")
 	{
 		// Logic to go to main menu
 		UE_LOG(LogTemp, Warning, TEXT("Returning to Main Menu..."));
 		APlayerController* PC = GetWorld()->GetFirstPlayerController();
-		if (!PC) return;
+		if (PC)
+		{
+			// Hide mouse cursor and reset input
+			PC->bShowMouseCursor = false;
+			PC->SetInputMode(FInputModeGameOnly());
+		}
 
-		AGameHud* HUD = Cast<AGameHud>(PC->GetHUD());
-		if (!HUD) return;
-
-		HUD->closeGameOverMenu();
-		HUD->ToggleMainMenu(HUD->NewMainMenuWidgetClass);
+		// Reload level
+		UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()));
 	}
 	else if (ButtonText->GetText().ToString() == "Quit")
 	{

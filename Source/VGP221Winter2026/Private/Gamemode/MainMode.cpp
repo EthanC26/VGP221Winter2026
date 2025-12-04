@@ -25,5 +25,66 @@ void AMainMode::StartPlay()
 
 	//4. modern way of debugging values
 	UE_LOGFMT(LogTemp, Warning, "TestNumber: {0}, TestFlaot: {1} CoolGuy: {2}", TestValue, TestFloat, "Erhan");
+
+	//find all enemies in the level
+	TArray<AActor*> Enemies;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AEnemyAICharacter::StaticClass(), Enemies);
+
+	AliveEnemyCount = Enemies.Num();
+	UE_LOG(LogTemp, Warning, TEXT("Enemy Count: %d"), AliveEnemyCount);
+
+	// bind to each enemy's OnEnemyDied event
+	for (AActor* EnemyActor : Enemies)
+	{
+		AEnemyAICharacter* EnemyCharacter = Cast<AEnemyAICharacter>(EnemyActor);
+		if (EnemyCharacter)
+		{
+			EnemyCharacter->OnEnemyDied.AddDynamic(this, &AMainMode::HandleEnemyDied);
+		}
+	}
+
+	// Get player and bind on died
+	AFPSCharacter* player = Cast<AFPSCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	if (player) {
+
+		player->OnPlayerDied.AddDynamic(this, &AMainMode::HandlePlayerDied);
+
+	}
 	
+}
+
+void AMainMode::HandlePlayerDied()
+{
+	FTimerHandle TimerHandle;
+	GetWorldTimerManager().SetTimer(TimerHandle, this, &AMainMode::GoToGameOver, 2.0f, false);
+}
+
+void AMainMode::GoToGameOver()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Player Died! Game Over!"));
+
+	UGameplayStatics::SetGamePaused(GetWorld(), true);
+
+	// Create and display the GameOverWidget
+	   // Get player controller
+	APlayerController* PC = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	if (!PC) return;
+
+	// Get HUD and call ShowGameOverMenu
+	if (AGameHud* GameHud = Cast<AGameHud>(PC->GetHUD()))
+	{
+		int32 FinalScore = 0; // Replace with actual score if you track it
+		GameHud->ShowGameOverMenu(FinalScore);
+	}
+}
+
+void AMainMode::HandleEnemyDied()
+{
+	AliveEnemyCount--;
+	UE_LOG(LogTemp, Warning, TEXT("Enemy Died! Remaining Enemies: %d"), AliveEnemyCount);
+	if (AliveEnemyCount <= 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("All Enemies Defeated! You Win!"));
+		GoToGameOver();
+	}
 }

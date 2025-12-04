@@ -23,7 +23,7 @@ void UGameOverWidget::SpawnButtons()
 {
 	if (!ButtonContanier|| !UserButtonWidgetClass) return;
 
-	TArray<FString> ButtonNames = { TEXT("Restart"), TEXT("Main Menu"), TEXT("Quit") };
+	TArray<FString> ButtonNames = { TEXT("Main Menu"), TEXT("Quit") };
 
 	for (int i = 0; i < ButtonNames.Num(); i++)
 	{

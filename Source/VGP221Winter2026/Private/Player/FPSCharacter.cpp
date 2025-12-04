@@ -126,10 +126,10 @@ void AFPSCharacter::Fire()
 	FVector LaunchDirection = MuzzleRotation.Vector();
 	Projectile->FireInDirection(LaunchDirection);
 
-	TakeDamage(10.0f);
+	OnHurtPlayer(10.0f);
 }
 
-void AFPSCharacter::TakeDamage(float DamageAmount)
+void AFPSCharacter::OnHurtPlayer(float DamageAmount)
 {
 	Health -= DamageAmount;
 	float HealthPercent = Health / MaxHealth;
@@ -144,5 +144,15 @@ void AFPSCharacter::TakeDamage(float DamageAmount)
 			GameMenu->UpdateHealthBar(HealthPercent);
 		}
 	}
+	if (Health <= 0.0f)
+	{
+		OnPlayerDied.Broadcast();
+	}
+}
+
+float AFPSCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	OnHurtPlayer(DamageAmount);
+	return DamageAmount;
 }
 
